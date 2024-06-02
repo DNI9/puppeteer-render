@@ -93,7 +93,10 @@ async function getProducts(query, maxPage) {
   try {
     browser = await getBrowser();
     page = await browser.newPage();
-    await page.goto(getUrl(query), { timeout: 5000 });
+
+    const url = getUrl(query);
+    console.log("Opening: ", url);
+    await page.goto(url, { timeout: 5000 });
 
     const pageInfo = await page.$(".pagination-paginationMeta");
     let maxPageAvailable =
@@ -102,6 +105,7 @@ async function getProducts(query, maxPage) {
 
     const products = [];
     for await (let i of Array.from({ length: maxPageAvailable }, (_, i) => i + 1)) {
+      console.log("Scraping page: ", i);
       products.push(...(await scrape(page)));
       if (i < maxPage) {
         const nextBtn = await page.$(".pagination-next");
@@ -131,6 +135,7 @@ async function getProducts(query, maxPage) {
       error,
     };
   } finally {
+    console.log("Closing browser...");
     await page?.close();
     await browser?.close();
   }
