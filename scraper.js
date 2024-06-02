@@ -43,7 +43,7 @@ async function scrape(page) {
   });
 
   try {
-    await page.waitForNetworkIdle({ timeout: 3000 });
+    await page.waitForNetworkIdle();
   } catch (error) {
     if (error.name === "TimeoutError") {
       console.error("Wait for images to load timed out, continuing...");
@@ -98,7 +98,7 @@ async function getProducts(query, maxPage) {
 
     const url = getUrl(query);
     console.log("Opening: ", url);
-    await page.goto(url, { timeout: 5000 });
+    await page.goto(url);
 
     const pageInfo = await page.$(".pagination-paginationMeta");
     let maxPageAvailable =
