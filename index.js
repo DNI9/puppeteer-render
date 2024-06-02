@@ -1,11 +1,16 @@
 const express = require("express");
-const { scrapeLogic } = require("./scrapeLogic");
+const { getProducts } = require("./scraper");
 const app = express();
 
 const PORT = process.env.PORT || 4000;
 
-app.get("/scrape", (req, res) => {
-  scrapeLogic(res);
+app.get("/scrape", async (req, res) => {
+  const query = req.query?.q;
+  if (!query) {
+    return res.status(400).send({ error: "query is required" });
+  }
+  const products = await getProducts(query);
+  res.send(products);
 });
 
 app.get("/", (req, res) => {
@@ -13,5 +18,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
+  console.log(`Listening on port http://localhost:${PORT}`);
 });
