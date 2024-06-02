@@ -9,7 +9,8 @@ app.get("/scrape", async (req, res) => {
   if (!query) {
     return res.status(400).send({ error: "query is required" });
   }
-  const products = await getProducts(query);
+  const maxPageToScrape = +req.query?.maxPage || 1;
+  const products = await getProducts(query, maxPageToScrape);
   res.send(products);
 });
 

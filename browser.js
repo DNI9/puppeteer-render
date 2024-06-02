@@ -21,6 +21,7 @@ const args = [
  * @throws {Error} If there are errors launching the browser.
  */
 async function getBrowser() {
+  const isDevMode = process.env.NODE_ENV === "development";
   const browser = await puppeteer.launch({
     args,
     executablePath:
@@ -28,7 +29,7 @@ async function getBrowser() {
         ? process.env.PUPPETEER_EXECUTABLE_PATH
         : puppeteer.executablePath(),
     defaultViewport: { height: 768, width: 1366 },
-    headless: true,
+    headless: !isDevMode,
   });
 
   return browser;
