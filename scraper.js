@@ -75,7 +75,9 @@ async function scrape(page) {
     let price = priceEl ? await priceEl.evaluate(el => el.textContent) : "";
     price = +price.match(/\d+/)?.[0] || 0;
 
-    products.push({ title, brand, url, price, imgUrl, ratings });
+    const product = { title, brand, url, price, imgUrl, ratings };
+    console.log("Found product: ", product);
+    products.push(product);
   }
 
   return products;
