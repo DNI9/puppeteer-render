@@ -76,10 +76,10 @@ async function scrape(page) {
     price = +price.match(/\d+/)?.[0] || 0;
 
     const product = { title, brand, url, price, imgUrl, ratings };
-    console.log("Found product: ", product);
     products.push(product);
   }
 
+  console.log("Found products: ", products.length);
   return products;
 }
 
